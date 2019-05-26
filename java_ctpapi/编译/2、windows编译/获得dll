@@ -20,6 +20,39 @@
     thosttraderapi_wrap.h
     libiconv.lib
     iconv.h
-####运行调试器
-    项目文件夹的64文件夹内及生成文件。目标dll
+####获取产物
+    结算单乱码的解决方案
+    结算单乱码的主要原因是分段按byte截断传输，不考虑unicode可能多个byte的情况，因此中途转码会丢失数据，一个简单的解决方案，在Java中还原为byte[] 拼接，然后再new String ，使用编码GB2312,此问题便解决
+    
+    1.在生成的CPP中
+    搜索
+    CThostFtdcSettlementInfoField_1Content_1get
+    将返回类型改为jbyteArray 
+    将函数内容替换为
+    /////////////////////////////////////
+      jbyteArray jresult = 0 ;
+      CThostFtdcSettlementInfoField *arg1 = (CThostFtdcSettlementInfoField *) 0 ;
+      char *result = 0 ;
+      
+      (void)jenv;
+      (void)jcls;
+      (void)jarg1_;
+      arg1 = *(CThostFtdcSettlementInfoField **)&jarg1; 
+      result = (char *) ((arg1)->Content);
+      {
+    	  if (result) {
+    		  jresult = jenv->NewByteArray( strlen(result));
+    		  jenv->SetByteArrayRegion(jresult, 0, strlen(result), (jbyte*)result);
+    	  }
+    
+      }
+      return jresult;
+    
+    /////////////////////////////////////
+    
+    2.手动将CThostFtdcSettlementInfoField.java文件中的函数 getContent()方法的返回类型改为byte[],将其调用的其他类的方法的返回类型也改为byte[]直到无错为止
+    
+    3.在java中，在没有返回last标记之前，存储所有byte[],返回标记之后拼接为一个大byte[] 使用new String(contentBytes,"GBK")，便可得到完全正确的结算单
+
+项目文件夹的64文件夹内及生成文件。目标dll
     
