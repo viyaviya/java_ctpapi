@@ -1,0 +1,25 @@
+##编译
+####项目属性设置
+    通过C++得到java可调用的dll动态库
+    
+    使用vs新建项目->32控制台应用程序
+    项目名字->thosttraderapi_wrap
+    应用程序类型->DLL
+    附加选项->空项目
+    右键项目属性：
+    配置属性->c/c++->代码生成->运行库->多线程(/MT)
+    配置管理器->release->平台新建64位
+    配置属性-> 链接器 -> 命令行 添加： /NODEFAULTLIB:"libcmt.lib"
+    
+ ####添加文件
+    ThostFtdcTraderApi.h
+    ThostFtdcUserApiDataType.h
+    ThostFtdcUserApiStruct.h
+    thosttraderapi.lib
+    thosttraderapi_wrap.cpp
+    thosttraderapi_wrap.h
+    libiconv.lib
+    iconv.h
+####运行调试器
+    项目文件夹的64文件夹内及生成文件。目标dll
+    
