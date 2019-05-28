@@ -1,5 +1,10 @@
 ##编译
+
 ####项目属性设置
+
+将你安装jdk目录\Java\jdk1.8.0_111\include下的jni.h和win32文件夹下的jni_md.h, jawt_md.h一共三个文件拷贝到安装vs的include目录底下D:\software\VS2013\VC\include。
+这是因为thosttraderapi_wrap.cpp文件中包含了<jni.h>,这是用于生成Java可调用接口的库文件。
+
     通过C++得到java可调用的dll动态库
     
     使用vs新建项目->32控制台应用程序
